@@ -164,6 +164,16 @@ Make sure to create meals_db database and add the url, username, and password to
 4. Add the database url, username, and password to your .env file
 5. Run the app
 
+## Testing
+
+The application is tested using JUnit 5. The code coverage is 80% for classes, 50% for methods and 46% for lines.
+
+Run the tests with the following command:
+
+```shell
+gradle test
+```
+
 ## Contributing
 
 Contributions are welcome! Please open an issue or submit a pull request if you have any ideas for improvements.
