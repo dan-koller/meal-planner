@@ -13,7 +13,8 @@ import java.util.stream.Collectors;
 public class Driver implements MealRepository {
     // SQL statements
     private static final String SQL_ADD_MEAL = "INSERT INTO meals (meal_id, meal, category) VALUES (?, ?, ?)";
-    private static final String SQL_ADD_INGREDIENT = "INSERT INTO ingredients (ingredient, meal_id) VALUES (?, ?)";
+    private static final String SQL_ADD_INGREDIENT =
+            "INSERT INTO ingredients (ingredient_id, ingredient, meal_id) VALUES (?, ?, ?)";
     private static final String SQL_ADD_PLAN = "INSERT INTO plan (day, breakfast, lunch, dinner) VALUES (?, ?, ?, ?)";
     private static final String SQL_CLEAR_PLAN = "DELETE FROM plan";
     private static final String SQL_GET_PLAN = "SELECT * FROM plan";
@@ -160,13 +161,29 @@ public class Driver implements MealRepository {
             int mealId = resultSet.next() ? resultSet.getInt("meal_id") : -1;
             statement = connection.prepareStatement(SQL_ADD_INGREDIENT);
             for (int i = 0; i < meal.ingredients().length; i++) {
-                statement.setString(1, meal.ingredients()[i]);
-                statement.setInt(2, mealId);
+                statement.setInt(1, getIngredientTableSize() + 1);
+                statement.setString(2, meal.ingredients()[i]);
+                statement.setInt(3, mealId);
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
+    }
+
+    /**
+     * This helper method is used to get the number of ingredients in the database. This is used by the addMeal method
+     * to generate the ingredient id when adding a new ingredient to the database.
+     *
+     * @return The number of ingredients in the database
+     * @throws SQLException If the database connection fails
+     */
+    private int getIngredientTableSize() throws SQLException {
+        String SQL_GET_INGREDIENT_TABLE_SIZE = "SELECT COUNT(*) FROM ingredients";
+        Connection connection = getConnection();
+        PreparedStatement statement = connection.prepareStatement(SQL_GET_INGREDIENT_TABLE_SIZE);
+        ResultSet resultSet = statement.executeQuery();
+        return resultSet.next() ? resultSet.getInt(1) : -1;
     }
 
     /**
