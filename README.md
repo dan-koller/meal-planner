@@ -48,7 +48,7 @@ You can add new meals, show meals for a category, plan meals for the week, and c
 ### Add a new meal
 
 ```shell
-What would you like to do (add, show, exit)?
+What would you like to do (add, show, plan, save, exit)?
 > add
 Which meal do you want to add (breakfast, lunch, dinner)?
 > lunch
@@ -62,7 +62,7 @@ The meal has been added!
 ### Show meals for a category
 
 ```shell
-What would you like to do (add, show, exit)?
+What would you like to do (add, show, plan, save, exit)?
 > show
 Which category do you want to print (breakfast, lunch, dinner)?
 > breakfast
@@ -78,7 +78,7 @@ peanut butter
 ### Plan meals for the week
 
 ```shell
-What would you like to do (add, show, plan, exit)?
+What would you like to do (add, show, plan, save, exit)?
 > plan
 Monday
 oatmeal
