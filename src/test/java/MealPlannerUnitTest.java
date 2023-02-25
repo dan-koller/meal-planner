@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MealPlannerUnitTest {
 
+    // Test for adding a complete recipe
     @Test
     public void testAddCompleteRecipe() {
         String[] commandsForAddingRecipe = {
@@ -40,6 +41,7 @@ public class MealPlannerUnitTest {
         assertEquals(expected, output);
     }
 
+    // Test for showing the meals of a category
     @Test
     public void testShowMeal() {
         String[] commandsForShowingMeal = {
@@ -65,10 +67,12 @@ public class MealPlannerUnitTest {
         assertTrue(output.contains(expected));
     }
 
+    // Clean the database after each test
     @AfterEach
     public void cleanDatabase() {
         String SQL_CLEAN_MEALS_TABLE = "DELETE FROM meals WHERE meal LIKE '%testmeal%'";
-        String SQL_CLEAN_INGREDIENTS_TABLE = "DELETE FROM ingredients WHERE ingredient LIKE '%bits%' OR ingredient LIKE '%bytes%' OR ingredient LIKE '%arrays%'";
+        String SQL_CLEAN_INGREDIENTS_TABLE = "DELETE FROM ingredients WHERE ingredient " +
+                "LIKE '%bits%' OR ingredient LIKE '%bytes%' OR ingredient LIKE '%arrays%'";
         try (Connection connection = getConnection()) {
             connection.setAutoCommit(true);
             PreparedStatement statement = connection.prepareStatement(SQL_CLEAN_MEALS_TABLE);
@@ -78,7 +82,8 @@ public class MealPlannerUnitTest {
             statement = connection.prepareStatement("SELECT * FROM meals WHERE meal LIKE '%testmeal%'");
             ResultSet resultSet = statement.executeQuery();
             assertEquals(0, resultSet.getRow());
-            statement = connection.prepareStatement("SELECT * FROM ingredients WHERE ingredient LIKE '%bits%' OR ingredient LIKE '%bytes%' OR ingredient LIKE '%arrays%'");
+            statement = connection.prepareStatement("SELECT * FROM ingredients WHERE ingredient " +
+                    "LIKE '%bits%' OR ingredient LIKE '%bytes%' OR ingredient LIKE '%arrays%'");
             resultSet = statement.executeQuery();
             assertEquals(0, resultSet.getRow());
         } catch (SQLException e) {
